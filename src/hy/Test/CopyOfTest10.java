@@ -3,7 +3,7 @@ package hy.Test;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-public class Test10 {
+public class CopyOfTest10 {
 	/**
 	 * 請作出小算盤的功能(傳入一String x= "1 +2-3  +4+5" 忘記有沒有) 然後，按下"=" 會發生 ????計算結果?
 	 * 
@@ -21,13 +21,31 @@ public class Test10 {
 	static ArrayList<String> toPostfix(String str) {
 		LinkedList<String> stack = new LinkedList<>(); // 經過條件排序，push +,-,*,/
 		ArrayList<String> output = new ArrayList<>();  // 完整的後序式算式存在這
-		String[] strArray = str.replace(" ", "").replace("=", " ") //處理字串中不必要的字元並切割成陣列
+		String[] strSplit = str.replace(" ", "").replace("=", " ") //處理字串中不必要的字元並切割成陣列
 				.replace("?", " ").trim().split("");
 		String toStack = "(";
 		String toOutput = ")";
-
-		for (int i = 0; i < strArray.length; i++) {
-			String c = strArray[i];
+		StringBuilder sb = new StringBuilder();
+		ArrayList<String> strArray = new ArrayList<>();
+		
+		for(int i =0;i< strSplit.length; i++){
+			String c = strSplit[i];
+			if (c.matches("\\d")){
+				sb.append(c);
+				continue;
+			} else {
+				strArray.add(sb.toString());
+				strArray.add(c);
+				sb.setLength(0); //把sb初始化
+			}
+		}
+		if(sb.length()!= 0){
+			strArray.add(sb.toString());
+		}
+		
+		
+		for (int i = 0; i < strArray.size(); i++) {
+			String c = strArray.get(i);
 			if (c.equals(toStack)) { //遇到 "(" 存進stack
 				stack.add(c);
 			} else if ("+-*/".indexOf(c) != -1) { // c為+,-,*,/ 其中一個
@@ -63,7 +81,7 @@ public class Test10 {
 		LinkedList<Integer> numList = new LinkedList<>();//計算時存放數字的stack
 		int[] numArray = new int[2]; // 兩個運算元與運算子計算時 存放的位置 
 		for (String postfixStr : output) {
-			if (postfixStr.matches("\\d")) {
+			if (postfixStr.matches("[0-9]+")) {
 				numList.add(Integer.parseInt(postfixStr)); //postfixStr為數字時存進numList
 				continue;
 			}
@@ -93,7 +111,7 @@ public class Test10 {
 
 	public static void main(String[] args) {
 		String str = "1 +2 - 4 /2 +4 *5 =?"; // 21
-		System.out.println(Test10.execute(str));
+		System.out.println(CopyOfTest10.execute(str));
 
 	}
 
