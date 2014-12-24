@@ -7,19 +7,17 @@ package hy.Test;
  * 
  */
 public class Test3 {
-	static void recursive(String[] strArray, int i, int strLength) {
-		int count = i+1;
-		for (int j = 0; j < strLength; j++) {
-			for (int k = 0; k < count; k++) {
-				if (count < strLength) {
+	static void recursive(String[] strArray, int[] strIndex) {
+		int count = 1;
+		int strlength = strIndex.length;
+		
+		for (int j = 0; j < strlength; j++) {
+			
+				for (int k = 0; k < count; k++) {
 					System.out.print(strArray[k]+" ");
-					++count;
-					k--;
-				} else {
-					count = i;
 				}
-			}
-
+				++count;
+				System.out.print("\n");
 		}
 
 		// recursive(strArray, ++i, strLength);
@@ -27,14 +25,19 @@ public class Test3 {
 
 	static void execute(String str) {
 		String[] strArray = str.split("");// "" = 沒有條件的切割字串
-		int count = 0;
-		int index = 0;
-		int loop = 0;
-		int strLength = strArray.length;
-		for (int i = 0; i < strLength; i++) {
-			recursive(strArray, i, strLength);
-			System.out.print("\n");
+		int[] strIndex = new int[strArray.length];
+		for (int i =0;i < strArray.length; i++){
+			strIndex[i] = i;
 		}
+				
+//		int count = 0;
+//		int index = 0;
+//		int loop = 0;
+		
+//		for (int i = 0; i < strLength; i++) {
+			recursive(strArray,strIndex);
+//			System.out.print("\n");
+//		}
 
 	}
 
